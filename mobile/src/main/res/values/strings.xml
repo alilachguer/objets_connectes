@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">TP1</string>
+
+    <string name="app_name">Gestion de tâches</string>
+
+    <string name="title_home">Ajouter une tâche</string>
+    <string name="title_dashboard">Calendrier</string>
+    <string name="title_notifications">Recherche</string>
+    <string name="title_profile">Profile</string>
+
 </resources>
