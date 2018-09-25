@@ -14,10 +14,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setContentView(R.layout.activity_main)
 
         //loading the default fragment
-        loadFragment(AddTaskFragment())
+        loadFragment(CalendarFragment())
+
+        //Make the button clickable 
+
 
         //getting bottom navigation view and attaching the listener
         val navigation = findViewById(R.id.navigation) as BottomNavigationView
+        navigation.setSelectedItemId(R.id.navigation_dashboard);
         navigation.setOnNavigationItemSelectedListener(this)
     }
 
@@ -40,10 +44,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private fun loadFragment(fragment: Fragment?): Boolean {
         //switching fragment
         if (fragment != null) {
-            supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
             return true
         }
         return false
