@@ -18,6 +18,7 @@ import com.example.alachguer.tp1.R.id.navigation
 //implement the interface OnNavigationItemSelectedListener in your activity class
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
+    val btmNavigation: BottomNavigationView? = null
 
     @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
