@@ -12,5 +12,6 @@ object DbContract {
         const val COLUMN_NAME_DATE = "date"
         const val COLUMN_NAME_TIMEHOUR = "timehour"
         const val COLUMN_NAME_TIMEMINUTE = "timeminute"
+        const val COLUMN_NAME_NOTIFICATION = "notification"
     }
 }

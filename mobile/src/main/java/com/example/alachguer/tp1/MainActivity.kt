@@ -19,6 +19,8 @@ import com.example.alachguer.tp1.R.id.navigation
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     val btmNavigation: BottomNavigationView? = null
+    lateinit var todoDBHelper : TodoDbHelper
+
 
     @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +42,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val navigation = findViewById(R.id.navigation) as BottomNavigationView
         navigation.setSelectedItemId(R.id.navigation_dashboard);
         navigation.setOnNavigationItemSelectedListener(this)
+
+        todoDBHelper = TodoDbHelper(this)
     }
 
 
@@ -66,4 +70,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
         return false
     }
+
+
+
 }
