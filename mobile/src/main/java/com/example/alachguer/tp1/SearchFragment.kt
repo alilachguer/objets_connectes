@@ -1,38 +1,49 @@
 package com.example.alachguer.tp1
 import android.content.Context
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*
-import kotlinx.android.synthetic.main.fragment_search.listTodos
-import kotlinx.android.synthetic.main.search_list.view.*
-import org.w3c.dom.NodeList
 
 
 class SearchFragment : Fragment(){
 
     lateinit var listView: ListView
-    private var listNotes = ArrayList<TodoModel>()
+    private var listTodos = ArrayList<TodoModel>()
+    lateinit var todoDbHelper: TodoDbHelper
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_search, null)
-        listNotes.add(TodoModel(1, "JavaSampleApproach",
+        listTodos.add(TodoModel(1, "JavaSampleApproach",
                 "Java technology", "date sdsd", 221, 54, 65))
-        listNotes.add(TodoModel(1, "sdsd",
+        listTodos.add(TodoModel(1, "sdsd",
                 "desc", "date sdsd", 221, 54, 65))
-        listNotes.add(TodoModel(1, "sdssdsdsdsd",
+        listTodos.add(TodoModel(1, "sdssdsdsdsd",
                 "desc dfds", "date sdsd", 221, 54, 65))
 
         listView = view.findViewById<ListView>(R.id.listTodos)
-        // val adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, listNotes)
+
+        // intiation de la base de donnee
+        todoDbHelper = TodoDbHelper(view.context)
+
+        // insertion a la base de donnees
+        /*
+        todoDbHelper.insertTodo(listTodos.get(0))
+        todoDbHelper.insertTodo(listTodos.get(1))
+        todoDbHelper.insertTodo(listTodos.get(2))
+        */
+
+        // ajouter toutes les lignes de la bdd a la liste pour les lire
+        todoDbHelper.readAllTodos().forEach{
+            listTodos.add(it)
+        }
 
         val customAdapter = CustomAdapter(view.context)
-        customAdapter.mList = listNotes
+        customAdapter.mList = listTodos
         listView.adapter = customAdapter
 
         listView.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, position, id ->
@@ -43,7 +54,7 @@ class SearchFragment : Fragment(){
 
     }
 
-
+    // class adapteur permet de personnaliser l'affichade des donnees grace a un layout
     private class CustomAdapter(context: Context) : BaseAdapter() {
 
         private val mContext: Context
@@ -64,6 +75,7 @@ class SearchFragment : Fragment(){
 
         override fun getView(position: Int, convertView: View?, viewGroup: ViewGroup?): View {
             val layoutInflater = LayoutInflater.from(mContext)
+            // layout search_list affiche les les elements de la liste
             val searchList = layoutInflater.inflate(R.layout.search_list, viewGroup, false)
 
             val title = searchList.findViewById<TextView>(R.id.item_title)
