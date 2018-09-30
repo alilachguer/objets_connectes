@@ -6,22 +6,88 @@
     android:layout_height="match_parent"
     tools:context=".NotificationActivity">
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/notification_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="158dp">
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notification_toolbar">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/switch_notification" />
 
         <Switch
             android:id="@+id/switch1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Activer les notification"
-            android:textStyle="bold"
             android:textSize="15dp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="64dp" />
-
+            android:textStyle="bold" />
 
     </LinearLayout>
+
+
+    <Spinner
+        android:id="@+id/choiceButton"
+        style="?android:attr/spinnerStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/valider"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="8dp"
+        android:text="Valider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/annuler"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="8dp"
+        android:text="Annuler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/valider" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="8dp"
+        android:text="Combien de temps avant la tâche?"
+        app:layout_constraintEnd_toStartOf="@+id/choiceButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+
 </android.support.constraint.ConstraintLayout>

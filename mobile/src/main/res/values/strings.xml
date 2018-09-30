@@ -6,5 +6,6 @@
     <string name="title_dashboard">Calendrier</string>
     <string name="title_notifications">Recherche</string>
     <string name="title_profile">Profile</string>
+    <string name="switch_notification">activer les notifications</string>
 
 </resources>
