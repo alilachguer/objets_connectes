@@ -7,5 +7,8 @@
     <string name="title_notifications">Recherche</string>
     <string name="title_profile">Profile</string>
     <string name="switch_notification">activer les notifications</string>
+    <string name="title_task_description">ajouter un desciption</string>
+    <string name="hint_title">Titre</string>
+    <string name="hint_description">Description</string>
 
 </resources>
