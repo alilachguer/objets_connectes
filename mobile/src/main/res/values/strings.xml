@@ -10,5 +10,6 @@
     <string name="title_task_description">ajouter un desciption</string>
     <string name="hint_title">Titre</string>
     <string name="hint_description">Description</string>
-
+    <string name="select_date">choisir date et heure</string>
+    <string name="add_task">ajouter la tâche</string>
 </resources>
