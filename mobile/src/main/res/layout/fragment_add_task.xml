@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:fillViewport="true">
-
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -21,9 +14,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Ajouter une tâche"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textSize="35dp"
+        app:layout_constraintBottom_toTopOf="@+id/titre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,89 +28,61 @@
         android:id="@+id/titre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/date"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="40dp"
         android:ems="10"
+        android:focusable="false"
         android:gravity="center_horizontal"
         android:hint="Titre "
         android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/dateText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_add_task" />
-
-
-    <EditText
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/date"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/cadre_description"
-        android:ems="10"
-        android:gravity="top|left"
-        android:inputType="textMultiLine"
-        android:lines="8"
-        android:maxLines="10"
-        android:minLines="6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <TextView
         android:id="@+id/dateText"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="108dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:text="Date:"
         android:textSize="13dp"
+        app:layout_constraintBottom_toTopOf="@+id/select_date_time"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.239"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-
-    <DatePicker
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.591"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateText" />
-
-    <TextView
-        android:id="@+id/textView4"
+    <Button
+        android:id="@+id/select_date_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="72dp"
         android:layout_marginEnd="8dp"
-        android:text="Description"
+        android:layout_marginBottom="84dp"
+        android:text="@string/select_date"
+        app:layout_constraintBottom_toTopOf="@+id/add_task_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.269"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titre" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/add_task_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:padding="8dp"
+        android:background="@color/colorPrimary"
+        android:textColor="#ffff"
+        android:layout_marginBottom="156dp"
+        android:text="@string/add_task"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>
-</ScrollView>

@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".NotificationActivity" />
-        <activity android:name=".TaskActivity"></activity>
+
     </application>
 
 </manifest>

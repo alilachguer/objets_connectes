@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TaskActivity">
+    >
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/task_toolbar"
@@ -18,7 +18,6 @@
         android:id="@+id/desc_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:hint="@string/hint_title"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,11 +27,11 @@
     <EditText
         android:id="@+id/desc_description"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:ems="10"
+        android:layout_height="100dp"
+
         android:hint="@string/hint_description"
         android:gravity="top|left"
-        android:inputType="textPersonName|textPhonetic"
+        android:maxLines="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

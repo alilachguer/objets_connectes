@@ -84,6 +84,9 @@ class SearchFragment : Fragment(){
             val description = searchList.findViewById<TextView>(R.id.item_description)
             description.text = mList.get(position).description
 
+            val date = searchList.findViewById<TextView>(R.id.item_date)
+            date.text = mList.get(position).date + " - " + mList.get(position).timeHour + ":" + mList.get(position).timeMinute
+
             return searchList
         }
 
