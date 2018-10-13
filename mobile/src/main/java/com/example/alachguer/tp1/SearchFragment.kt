@@ -29,8 +29,8 @@ class SearchFragment : Fragment(){
 
         // intiation de la base de donnee
         todoDbHelper = TodoDbHelper(view.context)
-
         // insertion a la base de donnees
+
         /*
         todoDbHelper.insertTodo(listTodos.get(0))
         todoDbHelper.insertTodo(listTodos.get(1))
@@ -49,6 +49,7 @@ class SearchFragment : Fragment(){
         listView.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, position, id ->
             Toast.makeText(context, "Item clicked: " + customAdapter.mList.get(id.toInt()).title, Toast.LENGTH_LONG).show()
         }
+
 
         return view
 

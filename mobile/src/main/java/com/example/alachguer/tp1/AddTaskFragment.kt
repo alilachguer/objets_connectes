@@ -30,6 +30,8 @@ class AddTaskFragment : Fragment()
     var hour: Int = 0
     var minute: Int = 0
 
+    lateinit var todoDbHelper: TodoDbHelper
+
     companion object {
         val TITLE_EXTRA: String = "title_value"
     }
@@ -113,14 +115,19 @@ class AddTaskFragment : Fragment()
                         titleInput.text.toString(),
                         descriptionInput.text.toString(),
                         day.toString()+"/"+month+"/"+year,
-                        typeTask.getSelectedItem().toString(),
+                        typeInput.getSelectedItem().toString(),
                         hour,
                         minute,
                         //0 : notification off, changer a partir des parametres, prend que 1 ou 0
                         0)
-                var TDH: TodoDbHelper = TodoDbHelper(view.context)
-                TDH.insertTodo(todo)
-                Toast.makeText(view.context,"Votre tâche a été ajoutée !",Toast.LENGTH_SHORT).show()            }
+                todoDbHelper = TodoDbHelper(view.context)
+                todoDbHelper.insertTodo(todo)
+
+                var teste = todoDbHelper.readAllTodos()
+                for (t in teste){
+                    Toast.makeText(view.context,"tâche: " + t.title,Toast.LENGTH_SHORT).show()
+                }
+            }
 
         }
 

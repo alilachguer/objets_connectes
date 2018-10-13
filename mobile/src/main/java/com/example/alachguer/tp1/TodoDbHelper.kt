@@ -14,19 +14,20 @@ class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
         private val SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + DbContract.TodoEntry.TABLE_NAME + " (" +
-                        DbContract.TodoEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        DbContract.TodoEntry.COLUMN_NAME_TITLE + " TEXT," +
-                        DbContract.TodoEntry.COLUMN_NAME_DESCRIPTION + " TEXT," +
-                        DbContract.TodoEntry.COLUMN_NAME_DATE + " TEXT," +
-                        DbContract.TodoEntry.COLUMN_NAME_TYPE + "TEXT," +
-                        DbContract.TodoEntry.COLUMN_NAME_TIMEHOUR + " TEXT," +
-                        DbContract.TodoEntry.COLUMN_NAME_TIMEMINUTE + " TEXT," +
+                        DbContract.TodoEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        DbContract.TodoEntry.COLUMN_NAME_TITLE + " TEXT, " +
+                        DbContract.TodoEntry.COLUMN_NAME_DESCRIPTION + " TEXT, " +
+                        DbContract.TodoEntry.COLUMN_NAME_DATE + " TEXT, " +
+                        DbContract.TodoEntry.COLUMN_NAME_TYPE + " TEXT, " +
+                        DbContract.TodoEntry.COLUMN_NAME_TIMEHOUR + " TEXT, " +
+                        DbContract.TodoEntry.COLUMN_NAME_TIMEMINUTE + " TEXT, " +
                         DbContract.TodoEntry.COLUMN_NAME_NOTIFICATION + " TEXT)"
 
         private val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + DbContract.TodoEntry.TABLE_NAME
     }
 
     override fun onCreate(db: SQLiteDatabase) {
+        db.execSQL(SQL_DELETE_ENTRIES)
         db.execSQL(SQL_CREATE_ENTRIES)
     }
 
