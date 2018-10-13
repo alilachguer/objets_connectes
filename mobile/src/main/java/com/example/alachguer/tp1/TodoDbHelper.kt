@@ -9,7 +9,7 @@ class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
     companion object {
         // If you change the database schema, you must increment the database version.
-        val DATABASE_VERSION = 1
+        val DATABASE_VERSION = 2
         val DATABASE_NAME = "Todo.db"
 
         private val SQL_CREATE_ENTRIES =
@@ -18,6 +18,7 @@ class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
                         DbContract.TodoEntry.COLUMN_NAME_TITLE + " TEXT," +
                         DbContract.TodoEntry.COLUMN_NAME_DESCRIPTION + " TEXT," +
                         DbContract.TodoEntry.COLUMN_NAME_DATE + " TEXT," +
+                        DbContract.TodoEntry.COLUMN_NAME_TYPE + "TEXT," +
                         DbContract.TodoEntry.COLUMN_NAME_TIMEHOUR + " TEXT," +
                         DbContract.TodoEntry.COLUMN_NAME_TIMEMINUTE + " TEXT," +
                         DbContract.TodoEntry.COLUMN_NAME_NOTIFICATION + " TEXT)"
@@ -50,6 +51,7 @@ class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         values.put(DbContract.TodoEntry.COLUMN_NAME_TITLE, todo.title)
         values.put(DbContract.TodoEntry.COLUMN_NAME_DESCRIPTION, todo.description)
         values.put(DbContract.TodoEntry.COLUMN_NAME_DATE, todo.date.toString())
+        values.put(DbContract.TodoEntry.COLUMN_NAME_TYPE, todo.type)
         values.put(DbContract.TodoEntry.COLUMN_NAME_TIMEHOUR, todo.timeHour)
         values.put(DbContract.TodoEntry.COLUMN_NAME_TIMEMINUTE, todo.timeMinute)
         values.put(DbContract.TodoEntry.COLUMN_NAME_NOTIFICATION, todo.notification)
@@ -90,6 +92,7 @@ class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         var title: String
         var description: String
         var date: String
+        var type: String
         var timeHour: Int
         var timeMinute: Int
         var notif: Int
@@ -99,11 +102,12 @@ class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
                 title = cursor.getString(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_TITLE))
                 description = cursor.getString(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_DESCRIPTION))
                 date = cursor.getString(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_DATE))
+                type = cursor.getString(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_TYPE))
                 timeHour = cursor.getInt(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_TIMEHOUR))
                 timeMinute = cursor.getInt(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_TIMEMINUTE))
                 notif = cursor.getInt(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_NOTIFICATION))
 
-                todos.add(TodoModel(todoId, title, description, date, timeHour, timeMinute, notif))
+                todos.add(TodoModel(title, description, date, type, timeHour, timeMinute, notif))
                 cursor.moveToNext()
             }
         }
@@ -125,6 +129,7 @@ class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         var title: String
         var description: String
         var date: String
+        var type: String
         var timeHour: Int
         var timeMinute: Int
         var notif: Int
@@ -135,16 +140,15 @@ class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
                 title = cursor.getString(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_TITLE))
                 description = cursor.getString(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_DESCRIPTION))
                 date = cursor.getString(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_DATE))
+                type = cursor.getString(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_TYPE))
                 timeHour = cursor.getInt(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_TIMEHOUR))
                 timeMinute = cursor.getInt(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_TIMEMINUTE))
                 notif = cursor.getInt(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_NOTIFICATION))
-
-                todos.add(TodoModel(todoId, title, description, date, timeHour, timeMinute, notif))
+                todos.add(TodoModel( title, description, date, type, timeHour, timeMinute, notif))
                 cursor.moveToNext()
             }
         }
         return todos
     }
-
 
 }

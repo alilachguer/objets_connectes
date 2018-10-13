@@ -18,12 +18,12 @@ class SearchFragment : Fragment(){
                               savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_search, null)
-        listTodos.add(TodoModel(1, "JavaSampleApproach",
-                "Java technology", "date sdsd", 221, 54, 65))
-        listTodos.add(TodoModel(1, "sdsd",
-                "desc", "date sdsd", 221, 54, 65))
-        listTodos.add(TodoModel(1, "sdssdsdsdsd",
-                "desc dfds", "date sdsd", 221, 54, 65))
+        listTodos.add(TodoModel("Java", "JavaSampleApproach",
+                "Java technology","Sport", 0, 221, 0))
+        listTodos.add(TodoModel("Todo","Rendez-vous", "sdsd",
+                "desc", 0, 221, 0))
+        listTodos.add(TodoModel("Test", "Anniversaire", "sdssdsdsdsd",
+                "desc dfds", 0, 221, 0))
 
         listView = view.findViewById<ListView>(R.id.listTodos)
 

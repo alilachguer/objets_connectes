@@ -9,6 +9,7 @@ object DbContract {
         const val COLUMN_NAME_ID = "id"
         const val COLUMN_NAME_TITLE = "title"
         const val COLUMN_NAME_DESCRIPTION = "description"
+        const val COLUMN_NAME_TYPE = "type"
         const val COLUMN_NAME_DATE = "date"
         const val COLUMN_NAME_TIMEHOUR = "timehour"
         const val COLUMN_NAME_TIMEMINUTE = "timeminute"

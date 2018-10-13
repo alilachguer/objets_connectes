@@ -12,4 +12,5 @@
     <string name="hint_description">Description</string>
     <string name="select_date">choisir date et heure</string>
     <string name="add_task">ajouter la tâche</string>
+    <string name="type_task">De quel type est votre tâche</string>
 </resources>

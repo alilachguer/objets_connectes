@@ -1,0 +1,8 @@
+<resources>
+    <string-array name="valueSpinner">
+        <item>Sport</item>
+        <item>Anniversaire</item>
+        <item>Travail</item>
+        <item>Rendez-vous</item>
+    </string-array>
+</resources>
