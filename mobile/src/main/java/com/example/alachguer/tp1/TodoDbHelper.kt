@@ -9,7 +9,7 @@ class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
     companion object {
         // If you change the database schema, you must increment the database version.
-        val DATABASE_VERSION = 2
+        val DATABASE_VERSION = 1
         val DATABASE_NAME = "Todo.db"
 
         private val SQL_CREATE_ENTRIES =
