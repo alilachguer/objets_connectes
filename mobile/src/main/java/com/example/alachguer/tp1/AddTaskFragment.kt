@@ -44,8 +44,6 @@ class AddTaskFragment : Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-
-
         val view = inflater.inflate(R.layout.fragment_add_task, null)
         typeInput = view.findViewById(R.id.typeTask)
         editText = view.findViewById(R.id.titre)
@@ -107,7 +105,7 @@ class AddTaskFragment : Fragment()
         }
 
         add_task.setOnClickListener{
-            if (!isEmpty(editText)){
+            if (!isEmpty(editText) || month==0 || year==0 || day.toString().equals("0")){
                 Toast.makeText(view.context,"Entrez un titre et une description",Toast.LENGTH_SHORT).show()
             }
             else{
@@ -122,11 +120,9 @@ class AddTaskFragment : Fragment()
                         0)
                 todoDbHelper = TodoDbHelper(view.context)
                 todoDbHelper.insertTodo(todo)
+                Toast.makeText(view.context,"tâche: " + todo.title,Toast.LENGTH_SHORT).show()
+                editText.getText().clear(); month=0; year=0; typeInput.setSelection(0);
 
-                var teste = todoDbHelper.readAllTodos()
-                for (t in teste){
-                    Toast.makeText(view.context,"tâche: " + t.title,Toast.LENGTH_SHORT).show()
-                }
             }
 
         }
