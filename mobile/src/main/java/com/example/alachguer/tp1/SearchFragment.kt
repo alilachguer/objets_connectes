@@ -71,11 +71,13 @@ class SearchFragment : Fragment() {
 
         })
 
-        // filtre par texte
+        // filtre par texte lorsqu'un user ecrit dans la barre de recherche
+        // cette fonction est appelee chaque fois que le user ajoute ou enleve une lettre
         filtreByName.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextChange(newText: String?): Boolean {
+            	// met la valeur du texte dans la variable searchtext
                 searchText = newText.toString()
-                //val type = typeFiltre.selectedItem.toString()
+                // appele la fonction filter sur le texte dans la barre de recherche
                 customAdapter.filter(searchText)
                 return false
             }

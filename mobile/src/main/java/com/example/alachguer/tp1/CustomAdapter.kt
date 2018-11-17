@@ -38,7 +38,7 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
         mList.clear()
         if (text.length == 0) {
             /*
-            If Search query is Empty than we add all temp data into our main ArrayList
+            If Search query is Empty than we add all temp data into our main ArrayList (mList)
             We store Value in temp in Starting of Program.
             */
             mList.addAll(tempNameVersionList)
@@ -61,7 +61,8 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
         //This is to notify that data change in Adapter and Reflect the changes.
         notifyDataSetChanged()
     }
-    //
+
+    // fonction de filtre sur le texte de la barre de recherche et sur le type de tache
     fun filter(text: String, type: String){
 
         val text = text!!.toLowerCase(Locale.getDefault())
@@ -74,6 +75,8 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
             for (i in 0..tempNameVersionList.size - 1) {
 
                 var item = tempNameVersionList.get(i)
+                // la tache doit respecter ces deux conditions avant d'etre ajoutee a la liste mList qui sera affichee
+                // la tache doit contenir le texte recherche et sont type doit correspondre au type selectionne dans le spinner
                 if (item.title.toLowerCase(Locale.getDefault()).contains(text) && item.type.equals(type)) {
                     //mList.clear()
                     mList.add(tempNameVersionList.get(i))
