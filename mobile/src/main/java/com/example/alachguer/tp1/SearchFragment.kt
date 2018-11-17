@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*
+import android.app.SearchManager;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import kotlinx.android.synthetic.main.fragment_search.*
 
 
@@ -20,8 +23,11 @@ class SearchFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val filtreByName = R.id.nameFilter as EditText
+
         val view = inflater.inflate(R.layout.fragment_search, null)
+        val filtreByName = view.findViewById(R.id.nameFilter) as SearchView
+        val typeFiltre = view.findViewById(R.id.typeFilter) as Spinner
+
         listTodos.add(TodoModel("Java", "JavaSampleApproach",
                 "Java technology", "Sport", 0, 221, 0))
         listTodos.add(TodoModel("Todo", "Rendez-vous", "sdsd",
@@ -46,9 +52,39 @@ class SearchFragment : Fragment() {
             listTodos.add(it)
         }
 
-        val customAdapter = CustomAdapter(view.context)
-        customAdapter.mList = listTodos
+        val customAdapter = CustomAdapter(view.context, listTodos)
+        //customAdapter.mList = listTodos
         listView.adapter = customAdapter
+
+        var searchText: String = ""
+
+        // evenement de lorsque la valeur du spinner est changee
+        typeFiltre.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // appel de filter avec deux parametres (text + valeur du type selectionne)
+                customAdapter.filter(searchText, typeFiltre.selectedItem.toString())
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            }
+
+
+        })
+
+        // filtre par texte
+        filtreByName.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextChange(newText: String?): Boolean {
+                searchText = newText.toString()
+                //val type = typeFiltre.selectedItem.toString()
+                customAdapter.filter(searchText)
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+        })
 
         listView.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, position, id ->
             Toast.makeText(context, "Item clicked: " + customAdapter.mList.get(id.toInt()).title, Toast.LENGTH_LONG).show()

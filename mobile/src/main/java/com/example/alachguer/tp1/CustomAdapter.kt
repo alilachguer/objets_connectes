@@ -8,16 +8,15 @@ import android.widget.BaseAdapter
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
+import java.util.*
+import kotlin.collections.ArrayList
 
-class CustomAdapter(context: Context) : BaseAdapter(), Filterable {
-
-    override fun getFilter(): Filter {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter() {
 
     private val mContext: Context
 
-    lateinit var mList: ArrayList<TodoModel>
+    var mList: ArrayList<TodoModel> = mlist
+    var tempNameVersionList = ArrayList(mList)
 
     init {
         mContext = context
@@ -29,6 +28,61 @@ class CustomAdapter(context: Context) : BaseAdapter(), Filterable {
 
     override fun getItem(position: Int): Any {
         return mList.get(position)
+    }
+
+    fun filter(text: String){
+
+        val text = text!!.toLowerCase(Locale.getDefault())
+
+        // effacer la liste mlist, pour l remplir avec les donnes associes au mot recherche
+        mList.clear()
+        if (text.length == 0) {
+            /*
+            If Search query is Empty than we add all temp data into our main ArrayList
+            We store Value in temp in Starting of Program.
+            */
+            mList.addAll(tempNameVersionList)
+
+        } else {
+            for (i in 0..tempNameVersionList.size - 1) {
+                /*
+                If our Search query is not empty than we Check Our search keyword in Temp ArrayList.
+                if our Search Keyword in Temp ArrayList than we add to our Main ArrayList
+                */
+                if (tempNameVersionList.get(i).title.toLowerCase(Locale.getDefault()).contains(text)) {
+
+                    mList.add(tempNameVersionList.get(i))
+
+
+                }
+
+            }
+        }
+        //This is to notify that data change in Adapter and Reflect the changes.
+        notifyDataSetChanged()
+    }
+    //
+    fun filter(text: String, type: String){
+
+        val text = text!!.toLowerCase(Locale.getDefault())
+        // effacer la liste mlist, pour l remplir avec les donnes associes au mot recherche
+        mList.clear()
+
+        if (text.length == 0) {
+            mList.addAll(tempNameVersionList)
+        } else {
+            for (i in 0..tempNameVersionList.size - 1) {
+
+                var item = tempNameVersionList.get(i)
+                if (item.title.toLowerCase(Locale.getDefault()).contains(text) && item.type.equals(type)) {
+                    //mList.clear()
+                    mList.add(tempNameVersionList.get(i))
+
+                }
+            }
+        }
+        //This is to notify that data change in Adapter and Reflect the changes.
+        notifyDataSetChanged()
     }
 
     override fun getView(position: Int, convertView: View?, viewGroup: ViewGroup?): View {
