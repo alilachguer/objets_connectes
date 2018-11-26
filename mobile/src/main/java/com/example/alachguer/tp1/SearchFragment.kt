@@ -39,13 +39,6 @@ class SearchFragment : Fragment() {
 
         // intiation de la base de donnee
         todoDbHelper = TodoDbHelper(view.context)
-        // insertion a la base de donnees
-
-        /*
-        todoDbHelper.insertTodo(listTodos.get(0))
-        todoDbHelper.insertTodo(listTodos.get(1))
-        todoDbHelper.insertTodo(listTodos.get(2))
-        */
 
         // ajouter toutes les lignes de la bdd a la liste pour les lire
         todoDbHelper.readAllTodos().forEach {
@@ -62,14 +55,12 @@ class SearchFragment : Fragment() {
         typeFiltre.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // appel de filter avec deux parametres (text + valeur du type selectionne)
+            }
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 customAdapter.filter(searchText, typeFiltre.selectedItem.toString())
             }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            }
-
-
-        })
+        }
+        )
 
         // filtre par texte lorsqu'un user ecrit dans la barre de recherche
         // cette fonction est appelee chaque fois que le user ajoute ou enleve une lettre
@@ -78,7 +69,7 @@ class SearchFragment : Fragment() {
             	// met la valeur du texte dans la variable searchtext
                 searchText = newText.toString()
                 // appele la fonction filter sur le texte dans la barre de recherche
-                customAdapter.filter(searchText)
+                customAdapter.filter(searchText, typeFiltre.selectedItem.toString())
                 return false
             }
 

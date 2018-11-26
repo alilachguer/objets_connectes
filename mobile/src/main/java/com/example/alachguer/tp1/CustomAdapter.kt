@@ -30,37 +30,6 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
         return mList.get(position)
     }
 
-    fun filter(text: String){
-
-        val text = text!!.toLowerCase(Locale.getDefault())
-
-        // effacer la liste mlist, pour l remplir avec les donnes associes au mot recherche
-        mList.clear()
-        if (text.length == 0) {
-            /*
-            If Search query is Empty than we add all temp data into our main ArrayList (mList)
-            We store Value in temp in Starting of Program.
-            */
-            mList.addAll(tempNameVersionList)
-
-        } else {
-            for (i in 0..tempNameVersionList.size - 1) {
-                /*
-                If our Search query is not empty than we Check Our search keyword in Temp ArrayList.
-                if our Search Keyword in Temp ArrayList than we add to our Main ArrayList
-                */
-                if (tempNameVersionList.get(i).title.toLowerCase(Locale.getDefault()).contains(text)) {
-
-                    mList.add(tempNameVersionList.get(i))
-
-
-                }
-
-            }
-        }
-        //This is to notify that data change in Adapter and Reflect the changes.
-        notifyDataSetChanged()
-    }
 
     // fonction de filtre sur le texte de la barre de recherche et sur le type de tache
     fun filter(text: String, type: String){
@@ -69,18 +38,28 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
         // effacer la liste mlist, pour l remplir avec les donnes associes au mot recherche
         mList.clear()
 
-        if (text.length == 0) {
-            mList.addAll(tempNameVersionList)
+        if (text.length == 0 ) {
+            if(type == "Tout"){
+                mList.addAll(tempNameVersionList)
+            }
+            for( i in 0..tempNameVersionList.size-1){
+                var item = tempNameVersionList.get(i)
+                if(item.type.toLowerCase(Locale.getDefault()).contains(type.toLowerCase())){
+                    mList.add(tempNameVersionList.get(i))
+                }
+            }
+
+
+           // mList.addAll(tempNameVersionList)
         } else {
             for (i in 0..tempNameVersionList.size - 1) {
 
                 var item = tempNameVersionList.get(i)
                 // la tache doit respecter ces deux conditions avant d'etre ajoutee a la liste mList qui sera affichee
                 // la tache doit contenir le texte recherche et sont type doit correspondre au type selectionne dans le spinner
-                if (item.title.toLowerCase(Locale.getDefault()).contains(text) && item.type.equals(type)) {
+                if (item.title.toLowerCase().contains(text) && item.type.toLowerCase().contains(type.toLowerCase()) ) {
                     //mList.clear()
                     mList.add(tempNameVersionList.get(i))
-
                 }
             }
         }
