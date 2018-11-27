@@ -4,6 +4,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.*
+import android.util.Log
+import android.widget.Toast
 
 class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -59,7 +61,7 @@ class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
         // Insert the new row, returning the primary key value of the new row
         val newRowId = db.insert(DbContract.TodoEntry.TABLE_NAME, null, values)
-
+        Log.d("creation", newRowId.toString())
 
         return true
     }
@@ -146,7 +148,7 @@ class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
                 timeHour = cursor.getInt(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_TIMEHOUR))
                 timeMinute = cursor.getInt(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_TIMEMINUTE))
                 notif = cursor.getInt(cursor.getColumnIndex(DbContract.TodoEntry.COLUMN_NAME_NOTIFICATION))
-                todos.add(TodoModel( title, description, date, type, timeHour, timeMinute, notif))
+                todos.add(TodoModel(todoId, title, description, date, type, timeHour, timeMinute, notif))
                 cursor.moveToNext()
             }
         }

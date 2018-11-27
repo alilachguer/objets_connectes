@@ -21,21 +21,12 @@ import android.view.ViewGroup.LayoutParams
 import android.widget.PopupWindow
 import android.widget.TextView
 
-
-
-
-
-
-
-
-
 class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter() {
 
     private val mContext: Context
     private var popupWindow: PopupWindow? = null
     var mList: ArrayList<TodoModel> = mlist
     var tempNameVersionList = ArrayList(mList)
-
 
     init {
         mContext = context
@@ -97,8 +88,8 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
         val title = searchList.findViewById<TextView>(R.id.item_title)
         title.text = mList.get(position).title
 
-//        val description = searchList.findViewById<TextView>(R.id.item_description)
-//        description.text = mList.get(position).description
+        val id = searchList.findViewById<TextView>(R.id.item_id)
+        id.text = mList.get(position).todoId.toString()
 
         val date = searchList.findViewById<TextView>(R.id.item_date)
         date.text = mList.get(position).date + " - " + mList.get(position).timeHour + ":" + mList.get(position).timeMinute
@@ -150,7 +141,7 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
                     // Slide animation for popup window exit transition
                     val slideOut = Slide()
                     slideOut.slideEdge = Gravity.RIGHT
-                    popupWindow.exitTransition = slideOut
+                    //popupWindow.exitTransition = slideOut
                     popupWindow!!.dismiss()
                     //REMOVE HERE
                     todoDbHelper.deleteTodo(mList.get(position).todoId.toString())

@@ -4,7 +4,7 @@ import java.util.*
 
 class TodoModel
 {
-    public var todoId: Int = 0
+    public var todoId: Int = 1
     public var title: String = "TitleDefault"
     public var description: String = "DescDefault"
     public var date: String = "dateDefault"
