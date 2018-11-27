@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:drawSelectorOnTop="true"
-        android:entries="@array/valueSpinner"
+        android:entries="@array/valueSpinner2"
         android:prompt="@string/type_task"
         app:layout_constraintStart_toStartOf="parent"/>
 

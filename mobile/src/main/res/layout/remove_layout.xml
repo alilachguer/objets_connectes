@@ -1,0 +1,41 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_custom_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="2dp"
+    android:background="#ab2fc4"
+    >
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="25sp"
+        />
+
+    <Button
+        android:id="@+id/Oui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv"
+        android:layout_alignStart="@+id/tv"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="230dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginBottom="154dp"
+        android:text="Oui" />
+
+    <Button
+        android:id="@+id/Non"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv"
+        android:layout_alignStart="@+id/tv"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="87dp"
+        android:layout_marginBottom="157dp"
+        android:text="Non" />
+
+</RelativeLayout>

@@ -5,4 +5,12 @@
         <item>Travail</item>
         <item>Rendez-vous</item>
     </string-array>
+
+    <string-array name="valueSpinner2">
+        <item>Tout</item>
+        <item>Sport</item>
+        <item>Anniversaire</item>
+        <item>Travail</item>
+        <item>Rendez-vous</item>
+    </string-array>
 </resources>
