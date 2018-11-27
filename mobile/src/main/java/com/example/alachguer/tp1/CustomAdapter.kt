@@ -36,9 +36,12 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
     var mList: ArrayList<TodoModel> = mlist
     var tempNameVersionList = ArrayList(mList)
 
+
     init {
         mContext = context
     }
+    var todoDbHelper = TodoDbHelper(context)
+
 
     override fun getItemId(position: Int): Long {
         return position.toLong()
@@ -138,13 +141,6 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
                     popupWindow.update(0, 0, popupWindow.getWidth(), popupWindow.getHeight());
                 }
 
-
-//                // Set an elevation value for popup window
-//                // Call requires API level 21
-//                if (Build.VERSION.SDK_INT >= 21) {
-//                    mPopupWindow!!.setElevation(5.0f)
-//                }
-
                 // Get a reference for the custom view close button
                 val removeTask = customView.findViewById(R.id.Oui) as Button
 
@@ -156,7 +152,9 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
                     slideOut.slideEdge = Gravity.RIGHT
                     popupWindow.exitTransition = slideOut
                     popupWindow!!.dismiss()
-                    //REMOVE HERE 
+                    //REMOVE HERE
+                    todoDbHelper.deleteTodo(mList.get(position).todoId.toString())
+
                 }
             }
         })

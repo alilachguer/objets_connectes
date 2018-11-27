@@ -30,4 +30,22 @@ class TodoModel
         this.notification = notification
 
     }
+
+    constructor(todoId: Int,title: String,
+                description: String,
+                date: String,
+                type: String,
+                timeHour: Int,
+                timeMinute: Int,
+                notification: Int){
+        this.todoId = todoId
+        this.title = title
+        this.description = description
+        this.date = date
+        this.type = type
+        this.timeHour = timeHour
+        this.timeMinute = timeMinute
+        this.notification = notification
+
+    }
 }

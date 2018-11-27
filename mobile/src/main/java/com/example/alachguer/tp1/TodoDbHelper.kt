@@ -14,7 +14,7 @@ class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
         private val SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + DbContract.TodoEntry.TABLE_NAME + " (" +
-                        DbContract.TodoEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        DbContract.TodoEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY, " +
                         DbContract.TodoEntry.COLUMN_NAME_TITLE + " TEXT, " +
                         DbContract.TodoEntry.COLUMN_NAME_DESCRIPTION + " TEXT, " +
                         DbContract.TodoEntry.COLUMN_NAME_DATE + " TEXT, " +
@@ -59,6 +59,7 @@ class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
         // Insert the new row, returning the primary key value of the new row
         val newRowId = db.insert(DbContract.TodoEntry.TABLE_NAME, null, values)
+
 
         return true
     }

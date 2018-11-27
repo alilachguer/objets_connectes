@@ -24,21 +24,24 @@ class SearchFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
 
+
+
         val view = inflater.inflate(R.layout.fragment_search, null)
         val filtreByName = view.findViewById(R.id.nameFilter) as SearchView
         val typeFiltre = view.findViewById(R.id.typeFilter) as Spinner
 
-        listTodos.add(TodoModel("Java", "JavaSampleApproach",
-                "Java technology", "Sport", 0, 221, 0))
-        listTodos.add(TodoModel("Todo", "Rendez-vous", "sdsd",
-                "desc", 0, 221, 0))
-        listTodos.add(TodoModel("Test", "Anniversaire", "sdssdsdsdsd",
-                "desc dfds", 0, 221, 0))
-
-        listView = view.findViewById<ListView>(R.id.listTodos)
-
         // intiation de la base de donnee
         todoDbHelper = TodoDbHelper(view.context)
+
+//        todoDbHelper.insertTodo(TodoModel("Java", "JavaSampleApproach",
+//                "Java technology", "Sport", 0, 221, 0))
+//
+//        todoDbHelper.insertTodo(TodoModel("Todo", "Rendez-vous", "sdsd",
+//                "desc", 0, 221, 0))
+//        todoDbHelper.insertTodo(TodoModel("Test", "Anniversaire", "sdssdsdsdsd",
+//                "desc dfds", 0, 221, 0))
+
+        listView = view.findViewById<ListView>(R.id.listTodos)
 
         // ajouter toutes les lignes de la bdd a la liste pour les lire
         todoDbHelper.readAllTodos().forEach {
