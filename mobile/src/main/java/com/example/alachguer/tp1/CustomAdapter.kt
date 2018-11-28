@@ -88,8 +88,8 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
         val title = searchList.findViewById<TextView>(R.id.item_title)
         title.text = mList.get(position).title
 
-        val id = searchList.findViewById<TextView>(R.id.item_id)
-        id.text = mList.get(position).todoId.toString()
+//        val id = searchList.findViewById<TextView>(R.id.item_id)
+//        id.text = mList.get(position).todoId.toString()
 
         val date = searchList.findViewById<TextView>(R.id.item_date)
         date.text = mList.get(position).date + " - " + mList.get(position).timeHour + ":" + mList.get(position).timeMinute
@@ -105,13 +105,10 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
 
                 // Inflate the custom layout/view
                 val customView = inflater.inflate(R.layout.remove_layout, null)
-
-
-
                 val popupWindow = PopupWindow(
                         customView, // Custom view to show in popup window
-                        LinearLayout.LayoutParams.WRAP_CONTENT, // Width of popup window
-                        LinearLayout.LayoutParams.WRAP_CONTENT // Window height
+                        750, // Width of popup window
+                        350// Window height
                 )
                 var popText = customView.findViewById<TextView>(R.id.tv) as TextView
                 popText.text =  "Voulez-vous vraiment supprimer la tâche "+  mList.get(position).title+" ?"
@@ -129,13 +126,22 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
                     slideIn.slideEdge = Gravity.TOP
                     popupWindow.enterTransition = slideIn
                     popupWindow.showAtLocation(searchList, Gravity.CENTER, 0, 0);
-                    popupWindow.update(0, 0, popupWindow.getWidth(), popupWindow.getHeight());
+
+                   // popupWindow.update(0, 0, popupWindow.getWidth(), popupWindow.getHeight());
                 }
 
                 // Get a reference for the custom view close button
                 val removeTask = customView.findViewById(R.id.Oui) as Button
-
+                val dontRemoveTask = customView.findViewById(R.id.Non) as Button
                 // Set a click listener for the popup window close button
+                dontRemoveTask.setOnClickListener {
+                    // Dismiss the popup window
+                    // Slide animation for popup window exit transition
+                    val slideOut = Slide()
+                    slideOut.slideEdge = Gravity.RIGHT
+                    //popupWindow.exitTransition = slideOut
+                    popupWindow!!.dismiss()
+                }
                 removeTask.setOnClickListener {
                     // Dismiss the popup window
                     // Slide animation for popup window exit transition
@@ -145,13 +151,15 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
                     popupWindow!!.dismiss()
                     //REMOVE HERE
                     todoDbHelper.deleteTodo(mList.get(position).todoId.toString())
+                    mList.clear()
 
+                    todoDbHelper.readAllTodos().forEach {
+                        mList.add(it)
+                    }
+                    notifyDataSetChanged()
                 }
             }
         })
-
-
-
         return searchList
     }
 

@@ -1,41 +1,43 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_custom_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="250dp"
+    android:layout_height="150dp"
     android:padding="2dp"
-    android:background="#ab2fc4"
+    android:background="#706B6B"
     >
 
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:padding="25sp"
-        />
 
     <Button
         android:id="@+id/Oui"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv"
-        android:layout_alignStart="@+id/tv"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="230dp"
-        android:layout_marginTop="92dp"
-        android:layout_marginBottom="154dp"
+        android:layout_marginStart="2dp"
         android:text="Oui" />
 
     <Button
         android:id="@+id/Non"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv"
-        android:layout_alignStart="@+id/tv"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="87dp"
-        android:layout_marginBottom="157dp"
+        android:layout_marginEnd="2dp"
         android:text="Non" />
 
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="159dp"
+        android:layout_height="43dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="48dp"
+        android:text="TextView"
+        android:textColor="	#FF000000"
+        android:textSize="15dp"
+        android:textStyle="bold" />
 </RelativeLayout>

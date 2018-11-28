@@ -77,6 +77,7 @@ class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         // Issue SQL statement.
         db.delete(DbContract.TodoEntry.TABLE_NAME, selection, selectionArgs)
 
+
         return true
     }
 
