@@ -24,7 +24,9 @@ import android.widget.TextView
 class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter() {
 
     private val mContext: Context
+    var flag = 0
     private var popupWindow: PopupWindow? = null
+    private var popupWindowDetails: PopupWindow? = null
     var mList: ArrayList<TodoModel> = mlist
     var tempNameVersionList = ArrayList(mList)
 
@@ -41,7 +43,6 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
     override fun getItem(position: Int): Any {
         return mList.get(position)
     }
-
 
     // fonction de filtre sur le texte de la barre de recherche et sur le type de tache
     fun filter(text: String, type: String){
@@ -88,14 +89,61 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
         val title = searchList.findViewById<TextView>(R.id.item_title)
         title.text = mList.get(position).title
 
-//        val id = searchList.findViewById<TextView>(R.id.item_id)
-//        id.text = mList.get(position).todoId.toString()
-
         val date = searchList.findViewById<TextView>(R.id.item_date)
         date.text = mList.get(position).date + " - " + mList.get(position).timeHour + ":" + mList.get(position).timeMinute
 
         val type = searchList.findViewById<TextView>(R.id.item_type)
         type.text = mList.get(position).type
+
+
+        searchList.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+
+                if(popupWindowDetails!=null){
+                    popupWindowDetails!!.dismiss()
+                    popupWindowDetails = null
+                    return
+                }
+
+                val inflater = mContext.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+                // Inflate the custom layout/view
+                val customView = inflater.inflate(R.layout.details_layout, null)
+                 popupWindowDetails = PopupWindow(
+                        customView, // Custom view to show in popup window
+                        1050, // Width of popup window
+                        450// Window height
+                )
+
+                var taskTitle = customView.findViewById<TextView>(R.id.taskTitle) as TextView
+                var taskType = customView.findViewById<TextView>(R.id.taskType) as TextView
+                var taskDate = customView.findViewById<TextView>(R.id.taskDate) as TextView
+                var taskDetail = customView.findViewById<TextView>(R.id.taskDetails) as TextView
+
+                taskTitle.text = mList.get(position).title.toString()
+                taskDate.text = mList.get(position).date.toString() + " " + mList.get(position).timeHour.toString() +"H"+mList.get(position).timeMinute.toString()
+                taskType.text = mList.get(position).type.toString()
+                taskDetail.text = mList.get(position).description.toString()
+
+
+                // Set an elevation for the popup window
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    popupWindowDetails!!.elevation = 10.0F
+                }
+
+
+                // If API level 23 or higher then execute the code
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    // Create a new slide animation for popup window enter transition
+                    val slideIn = Slide()
+                    slideIn.slideEdge = Gravity.TOP
+                    popupWindowDetails!!.enterTransition = slideIn
+                    popupWindowDetails!!.showAtLocation(searchList, Gravity.CENTER, 0, 0);
+
+                    // popupWindow.update(0, 0, popupWindow.getWidth(), popupWindow.getHeight());
+                }
+            }
+        })
 
 
         val deleteImageButton = searchList.findViewById<ImageButton>(R.id.buttonRemove) as ImageButton
@@ -107,8 +155,8 @@ class CustomAdapter(context: Context, mlist: ArrayList<TodoModel>) : BaseAdapter
                 val customView = inflater.inflate(R.layout.remove_layout, null)
                 val popupWindow = PopupWindow(
                         customView, // Custom view to show in popup window
-                        750, // Width of popup window
-                        350// Window height
+                        1050, // Width of popup window
+                        450// Window height
                 )
                 var popText = customView.findViewById<TextView>(R.id.tv) as TextView
                 popText.text =  "Voulez-vous vraiment supprimer la tâche "+  mList.get(position).title+" ?"

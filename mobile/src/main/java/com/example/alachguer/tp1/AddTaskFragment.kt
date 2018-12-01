@@ -1,15 +1,27 @@
 package com.example.alachguer.tp1
+import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Build
 import android.os.Bundle;
 import android.support.annotation.RequiresApi
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.app.FragmentActivity
+import android.support.v4.app.NotificationCompat
+import android.support.v4.app.NotificationManagerCompat
+import android.support.v4.content.ContextCompat.getSystemService
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import kotlinx.android.synthetic.main.fragment_add_task.*
 import android.widget.EditText
+import java.lang.Thread.sleep
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 
@@ -40,9 +52,14 @@ class AddTaskFragment : Fragment()
         return (etText.text.toString().trim { it <= ' ' }.length > 0)
     }
 
+
+    @SuppressLint("WrongViewCast")
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
+
 
         val view = inflater.inflate(R.layout.fragment_add_task, null)
         typeInput = view.findViewById(R.id.typeTask)
@@ -109,25 +126,31 @@ class AddTaskFragment : Fragment()
                 Toast.makeText(view.context,"Entrez un titre et une description",Toast.LENGTH_SHORT).show()
             }
             else{
+                var datee: String = day.toString()+"/"+month+"/"+year
                 var todo: TodoModel = TodoModel(
                         titleInput.text.toString(),
                         descriptionInput.text.toString(),
-                        day.toString()+"/"+month+"/"+year,
+                        datee,
                         typeInput.getSelectedItem().toString(),
                         hour,
                         minute,
                         //0 : notification off, changer a partir des parametres, prend que 1 ou 0
                         0)
+
                 todoDbHelper = TodoDbHelper(view.context)
                 todoDbHelper.insertTodo(todo)
                 Toast.makeText(view.context,"tâche: " + todo.title,Toast.LENGTH_SHORT).show()
-                editText.getText().clear(); month=0; year=0; typeInput.setSelection(0);
+                editText.getText().clear();
+                typeInput.setSelection(0);
 
+                var Calendar = Calendar.getInstance()
+                Calendar.set(year,month,day,hour,minute,0)
+                ((activity as MainActivity)).createNotification(todo.title,todo.type,Calendar.timeInMillis)
             }
-
         }
-
-
         return view
     }
+
 }
+
+
