@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     lateinit var todoDBHelper: TodoDbHelper
     var myTTS : TextToSpeech? = null
     var mySpeechRecognize : SpeechRecognizer ? = null
-    val lunchSpeechRecognizer : ImageButton = findViewById(R.id.SpeechButton)
+    lateinit var lunchSpeechRecognizer : ImageButton
 
 
     fun initializeTextToSpeech(){
@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        lunchSpeechRecognizer = findViewById(R.id.SpeechButton)
         //loading the default fragment
         loadFragment(CalendarFragment())
 
