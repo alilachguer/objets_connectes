@@ -39,13 +39,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         //loading the default fragment
         loadFragment(CalendarFragment())
 
-        //Make the button clickable
-        val notificationButton: ImageButton?
-        notificationButton = findViewById(R.id.notification_button) as ImageButton
-        notificationButton.setOnClickListener {
-            val intent = Intent(this, NotificationActivity::class.java)
-            startActivity(intent)
-        }
+
 
         //getting bottom navigation view and attaching the listener
         val navigation = findViewById(R.id.navigation) as BottomNavigationView
@@ -85,21 +79,71 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         val mManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val NotifIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 
         val CHANNEL_ID = "my_channel_01"
         val importance =  NotificationManager.IMPORTANCE_HIGH
         val myChannel = NotificationChannel(CHANNEL_ID,CHANNEL_ID,importance)
         mManager.createNotificationChannel(myChannel)
-        val builder = Notification.Builder(this,CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_remove_circle_outline_black_24dp)
-                .setContentTitle(type)
-                .setContentText(name)
-//                    .setStyle(NotificationCompat.BigTextStyle()
-//                            .bigText("Much longer text that cannot fit one line..."))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        with(NotificationManagerCompat.from(this)) {
-            // notificationId is a unique int for each notification that you must define
+
+        var builder : Notification.Builder
+        when(type){
+            "Sport" -> {
+                builder = Notification.Builder(this,CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_running)
+                        .setContentTitle(type)
+                        .setContentText(name)
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setContentIntent(NotifIntent)
+                        .setAutoCancel(true)
+                with(NotificationManagerCompat.from(this)) {
+                    // notificationId is a unique int for each notification that you must define
+                }
+            }
+            "Anniversaire" -> {
+                builder = Notification.Builder(this,CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_cake)
+                        .setContentTitle(type)
+                        .setContentText(name)
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                with(NotificationManagerCompat.from(this)) {
+                    // notificationId is a unique int for each notification that you must define
+                }
+            }
+            "Travail" -> {
+                builder = Notification.Builder(this,CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_portfolio)
+                        .setContentTitle(type)
+                        .setContentText(name)
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                with(NotificationManagerCompat.from(this)) {
+                    // notificationId is a unique int for each notification that you must define
+                }
+            }
+            "Rendez-vous" -> {
+                builder = Notification.Builder(this,CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_group)
+                        .setContentTitle(type)
+                        .setContentText(name)
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                with(NotificationManagerCompat.from(this)) {
+                    // notificationId is a unique int for each notification that you must define
+                }
+            }
+
+            else -> {
+                builder = Notification.Builder(this,CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_remove_circle_outline_black_24dp)
+                        .setContentTitle(type)
+                        .setContentText(name)
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                with(NotificationManagerCompat.from(this)) {
+                    // notificationId is a unique int for each notification that you must define
+                }
+            }
         }
+
+
 
         val notification =  builder.build()
         val notificationIntent = Intent(this, NotificationPublisher::class.java)
@@ -109,10 +153,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification)
         val pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        //val futureInMillis = SystemClock.elapsedRealtime() + delay
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager?
         alarmManager!!.set(AlarmManager.RTC_WAKEUP, delay, pendingIntent)
-
     }
 }
 

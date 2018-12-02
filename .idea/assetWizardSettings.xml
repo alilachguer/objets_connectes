@@ -33,9 +33,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ff000a" />
-                            <entry key="outputName" value="ic_remove_circle_outline_black_24dp" />
-                            <entry key="sourceFile" value="E:\Telechargement\tools-and-utensils.svg" />
+                            <entry key="outputName" value="ic_group" />
+                            <entry key="sourceFile" value="E:\Telechargement\group.svg" />
                           </map>
                         </option>
                       </PersistentState>

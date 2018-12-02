@@ -36,6 +36,8 @@ class AddTaskFragment : Fragment()
     lateinit var descriptionInput: EditText
     lateinit var select_date_time: Button
     lateinit var add_task: Button
+    lateinit var activeNotif: Switch
+    lateinit var timeTask: Spinner
     var day: Int = 0
     var month: Int = 0
     var year: Int = 0
@@ -66,12 +68,16 @@ class AddTaskFragment : Fragment()
         editText = view.findViewById(R.id.titre)
         select_date_time = view.findViewById(R.id.select_date_time)
         add_task = view.findViewById(R.id.add_task_button)
+        activeNotif = view.findViewById(R.id.actifNotif)
+        timeTask = view.findViewById(R.id.TimeTask)
+
 
 
         editText.setOnClickListener{
             var li: LayoutInflater = LayoutInflater.from(context)
             var promptsView: View = li.inflate(R.layout.activity_task, null)
             var alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(context)
+
 
             alertDialogBuilder.setView(promptsView)
 
@@ -143,9 +149,25 @@ class AddTaskFragment : Fragment()
                 editText.getText().clear();
                 typeInput.setSelection(0);
 
-                var Calendar = Calendar.getInstance()
-                Calendar.set(year,month,day,hour,minute,0)
-                ((activity as MainActivity)).createNotification(todo.title,todo.type,Calendar.timeInMillis)
+
+                if(activeNotif.isChecked){
+
+                    val time = timeTask.selectedItem
+                    var timeInMillis = 0
+                    when(time){
+                        "0" -> timeInMillis=0
+                        "5 min" -> timeInMillis = 300000
+                        "15 min" -> timeInMillis = 900000
+                        "30 min" -> timeInMillis = 900000*2
+                        "60 min" -> timeInMillis = 900000*4
+                        else -> timeInMillis = 0
+                    }
+
+                    var Calendar = Calendar.getInstance()
+                    Calendar.set(year,month,day,hour,minute,0)
+                    ((activity as MainActivity)).createNotification(todo.title,todo.type,Calendar.timeInMillis+timeInMillis)
+                }
+
             }
         }
         return view
