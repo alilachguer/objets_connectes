@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 }
 
                 override fun onResults(bundle: Bundle) {
-                    var result : Array<String> = bundle.getStringArray(SpeechRecognizer.RESULTS_RECOGNITION)
+                    val result = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                     processResult(result.get(0))
 
 
@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private fun processResult(command: String) {
         val command = command.toLowerCase()
         speak(command)
-        if(command.indexOf("Oui") != -1) {
+        if(command.indexOf("oui") != -1) {
             speak("Je vous affiche la liste des tâches")
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container, SearchFragment()).commit()
 
