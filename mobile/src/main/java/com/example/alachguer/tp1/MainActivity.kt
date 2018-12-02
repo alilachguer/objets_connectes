@@ -21,6 +21,11 @@ import android.app.AlarmManager
 import android.support.v4.content.ContextCompat.getSystemService
 import android.os.SystemClock
 import android.app.PendingIntent
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
+import android.speech.tts.TextToSpeech
+import android.widget.Toast
 import com.example.alachguer.tp1.NotificationPublisher
 
 
@@ -31,6 +36,41 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     val btmNavigation: BottomNavigationView? = null
     lateinit var todoDBHelper: TodoDbHelper
+    var myTTS : TextToSpeech? = null
+    var mySpeechRecognize : SpeechRecognizer ? = null
+    val lunchSpeechRecognizer : ImageButton = findViewById(R.id.SpeechButton)
+
+
+    fun initializeTextToSpeech(){
+        myTTS = TextToSpeech(this, TextToSpeech.OnInitListener(
+                @Override
+                fun(i : Int){
+                    if (myTTS != null) {
+                        if (myTTS!!.engines.size ==0 ){
+                            Toast.makeText(this,"Option non disponible sur votre téléphone",
+                                    Toast.LENGTH_LONG).show()
+                        }
+                        else{
+                            myTTS!!.setLanguage(Locale.FRENCH)
+                            speak("Bonjour, je suis pret")
+                        }
+                    }
+                }
+        ) )
+
+
+    }
+
+    fun speak(message: String) {
+        if(Build.VERSION.SDK_INT >= 21){
+            myTTS!!.speak(message,TextToSpeech.QUEUE_FLUSH,null,null)
+        }
+        else{
+            myTTS!!.speak(message,TextToSpeech.QUEUE_FLUSH,null)
+        }
+    }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +87,74 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         navigation.setOnNavigationItemSelectedListener(this)
 
         todoDBHelper = TodoDbHelper(this)
+
+        //Start Voice recognision
+        initializeTextToSpeech()
+        initializeSpeechRecognizer()
+
+        lunchSpeechRecognizer.setOnClickListener{
+            var intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+
+            intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,1)
+            mySpeechRecognize!!.startListening(intent)
+        }
+
+
+    }
+
+    fun initializeSpeechRecognizer() {
+        if(SpeechRecognizer.isRecognitionAvailable(this)){
+
+
+
+            mySpeechRecognize = SpeechRecognizer.createSpeechRecognizer(this)
+            mySpeechRecognize!!.setRecognitionListener(object : RecognitionListener {
+                override fun onBufferReceived(buffer: ByteArray) {
+                }
+
+                override fun onError(error: Int) {
+                }
+
+                override fun onEvent(eventType: Int, params: Bundle) {
+                }
+
+                override fun onPartialResults(partialResults: Bundle) {
+                }
+
+                override fun onReadyForSpeech(params: Bundle) {
+                }
+
+                override fun onResults(bundle: Bundle) {
+                    var result : Array<String> = bundle.getStringArray(SpeechRecognizer.RESULTS_RECOGNITION)
+                    processResult(result.get(0))
+
+
+                }
+
+                override fun onRmsChanged(rmsdB: Float) {
+                }
+
+                override fun onBeginningOfSpeech() {
+                }
+
+                override fun onEndOfSpeech() {
+                }
+            })
+
+        }
+    }
+
+    private fun processResult(command: String) {
+        val command = command.toLowerCase()
+
+        if(command.indexOf("Oui") != -1) {
+            speak("Je vous affiche la liste des tâches")
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, CalendarFragment()).commit()
+
+        }
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -156,5 +264,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager?
         alarmManager!!.set(AlarmManager.RTC_WAKEUP, delay, pendingIntent)
     }
+
+    override fun onPause(){
+        super.onPause()
+        myTTS!!.shutdown()
+    }
+
 }
 
