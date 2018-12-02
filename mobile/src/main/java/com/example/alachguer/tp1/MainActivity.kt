@@ -1,4 +1,5 @@
 package com.example.alachguer.tp1
+import android.Manifest
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
@@ -21,6 +22,7 @@ import android.app.AlarmManager
 import android.support.v4.content.ContextCompat.getSystemService
 import android.os.SystemClock
 import android.app.PendingIntent
+import android.content.pm.PackageManager
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
@@ -94,11 +96,20 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         initializeSpeechRecognizer()
 
         lunchSpeechRecognizer.setOnClickListener{
+            speak("J'écoute vos instructions")
             var intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
 
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
 
             intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,1)
+            val permission = ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.RECORD_AUDIO)
+
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                    arrayOf(Manifest.permission.RECORD_AUDIO),
+                    101)
+            }
             mySpeechRecognize!!.startListening(intent)
         }
 
@@ -107,8 +118,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     fun initializeSpeechRecognizer() {
         if(SpeechRecognizer.isRecognitionAvailable(this)){
-
-
 
             mySpeechRecognize = SpeechRecognizer.createSpeechRecognizer(this)
             mySpeechRecognize!!.setRecognitionListener(object : RecognitionListener {
@@ -149,10 +158,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private fun processResult(command: String) {
         val command = command.toLowerCase()
-
+        speak(command)
         if(command.indexOf("Oui") != -1) {
             speak("Je vous affiche la liste des tâches")
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, CalendarFragment()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, SearchFragment()).commit()
 
         }
 
