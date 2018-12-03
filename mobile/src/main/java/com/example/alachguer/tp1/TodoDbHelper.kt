@@ -81,6 +81,12 @@ class TodoDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         return true
     }
 
+    fun deleteAllTodos(): Boolean{
+        val db = writableDatabase
+        db.delete(DbContract.TodoEntry.TABLE_NAME,null,null)
+        return true
+    }
+
     fun readTodo(todoId: Int): ArrayList<TodoModel> {
         val todos = ArrayList<TodoModel>()
         val db = writableDatabase

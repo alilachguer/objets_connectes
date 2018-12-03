@@ -27,6 +27,7 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
+import android.support.annotation.RequiresApi
 import android.widget.Toast
 import com.example.alachguer.tp1.NotificationPublisher
 
@@ -41,6 +42,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     var myTTS : TextToSpeech? = null
     var mySpeechRecognize : SpeechRecognizer ? = null
     lateinit var lunchSpeechRecognizer : ImageButton
+    lateinit var todoDbHelper: TodoDbHelper
+
 
 
     fun initializeTextToSpeech(){
@@ -54,13 +57,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                         }
                         else{
                             myTTS!!.setLanguage(Locale.FRENCH)
-                            speak("Bonjour, je suis pret")
+                            speak("Bonjour, je suis prête à suivre vos instructions")
                         }
                     }
                 }
         ) )
-
-
     }
 
     fun speak(message: String) {
@@ -77,6 +78,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         lunchSpeechRecognizer = findViewById(R.id.SpeechButton)
         //loading the default fragment
@@ -112,7 +114,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             mySpeechRecognize!!.startListening(intent)
         }
-
+//        var bundle : Bundle = Bundle()
+//        var myFrag : Fragment = AddTaskFragment()
+//        bundle.putString("Titre", "okokok")
+//        myFrag.arguments = bundle
+//
+//        loadFragment(myFrag)
 
     }
 
@@ -157,13 +164,74 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun processResult(command: String) {
+        val navigation = findViewById(R.id.navigation) as BottomNavigationView
+        var titre : String = ""
+        //Supprimer tout
+        //Ajouter une tache avec un titre
+        //Liste de ce que tu peux faire
+        //Quitter l'application
         val command = command.toLowerCase()
-        speak(command)
-        if(command.indexOf("oui") != -1) {
-            speak("Je vous affiche la liste des tâches")
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, SearchFragment()).commit()
 
+
+        if(command.indexOf("supprime")!=-1){
+            speak("Je supprime toutes vos taches")
+            todoDbHelper = TodoDbHelper(this)
+            todoDBHelper.deleteAllTodos()
+            navigation.setSelectedItemId(R.id.navigation_notifications);
+            loadFragment(SearchFragment())
+            return
         }
+
+        if(command.indexOf("affiche") != -1 || command.indexOf("liste") != -1
+                || command.indexOf("toute") != -1) {
+            speak("Je vous affiche la liste des tâches")
+            navigation.setSelectedItemId(R.id.navigation_notifications);
+            loadFragment(SearchFragment())
+            return
+        }
+
+        if(command.indexOf("ajoute")!=-1 || command.indexOf("ajout")!=-1 ){
+            if(command.indexOf("titre")==-1){
+                var index = command.indexOf("tache")+1
+                titre  = command.subSequence(index,command.length).toString()
+                speak("Le titre de votre tâche est "+titre)
+                var bundle : Bundle = Bundle()
+                var myFrag : Fragment = AddTaskFragment()
+                bundle.putString("Titre", titre)
+                myFrag.setArguments(bundle)
+                navigation.setSelectedItemId(R.id.navigation_home);
+                loadFragment(myFrag)
+                return
+            }
+            else{
+                var index = command.indexOf("tache")+1
+                titre = command.subSequence(index,command.length).toString()
+                speak("Le titre de votre tâche est "+titre)
+                var bundle = Bundle()
+                var myFrag : Fragment = AddTaskFragment()
+                bundle.putString("Titre", titre)
+                myFrag.setArguments(bundle)
+                navigation.setSelectedItemId(R.id.navigation_home);
+                loadFragment(myFrag)
+                return
+            }
+        }
+
+        if(command.indexOf("faire")!=-1){
+            speak("Je peux : Supprimer toutes vos tâches , Quitter l'application, Ajouter une tache avec ou sans titre et afficher la liste des tâches")
+            return
+        }
+
+
+
+        if(command.indexOf("arrête")!=-1){
+            speak("Merci de votre utilisation, aurevoir")
+            finish()
+        }
+
+        speak("Je n'ai pas compris votre instruction")
+        speak("Pour connaitre la liste des instructions possibles dites : Que sais-tu faire ?")
+        return
 
     }
 
@@ -191,6 +259,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return false
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun createNotification(name: String, type: String, delay : Long) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library

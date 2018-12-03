@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.content.ContextCompat.getSystemService
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +55,7 @@ class AddTaskFragment : Fragment()
         return (etText.text.toString().trim { it <= ' ' }.length > 0)
     }
 
+    fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
 
     @SuppressLint("WrongViewCast")
 
@@ -73,6 +75,8 @@ class AddTaskFragment : Fragment()
 
 
 
+
+
         editText.setOnClickListener{
             var li: LayoutInflater = LayoutInflater.from(context)
             var promptsView: View = li.inflate(R.layout.activity_task, null)
@@ -83,6 +87,15 @@ class AddTaskFragment : Fragment()
 
             titleInput = promptsView.findViewById(R.id.desc_title);
             descriptionInput = promptsView.findViewById(R.id.desc_description);
+
+            val args = arguments
+            if(args != null){
+                val voiceTitle = args!!.getString("Titre", "null")
+                if(voiceTitle!="null"){
+                    titleInput.text = voiceTitle.toEditable()
+                    descriptionInput.text = " ".toEditable()
+                }
+            }
 
 
             alertDialogBuilder.setCancelable(false)
