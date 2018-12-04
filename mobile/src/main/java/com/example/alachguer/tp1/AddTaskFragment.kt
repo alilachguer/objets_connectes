@@ -91,9 +91,12 @@ class AddTaskFragment : Fragment()
             val args = arguments
             if(args != null){
                 val voiceTitle = args!!.getString("Titre", "null")
+                val voiceDescription = args!!.getString("Description","null")
                 if(voiceTitle!="null"){
                     titleInput.text = voiceTitle.toEditable()
-                    descriptionInput.text = " ".toEditable()
+                }
+                if(voiceDescription !="null"){
+                    descriptionInput.text = voiceDescription.toEditable()
                 }
             }
 

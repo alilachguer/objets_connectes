@@ -44,6 +44,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     lateinit var lunchSpeechRecognizer : ImageButton
     lateinit var todoDbHelper: TodoDbHelper
 
+    fun stringToWords(s : String) = s.trim().splitToSequence(' ')
+            .filter { it.isNotEmpty() } // or: .filter { it.isNotBlank() }
+            .toList()
 
 
     fun initializeTextToSpeech(){
@@ -166,6 +169,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private fun processResult(command: String) {
         val navigation = findViewById(R.id.navigation) as BottomNavigationView
         var titre : String = ""
+        var bundle : Bundle = Bundle()
+
         //Supprimer tout
         //Ajouter une tache avec un titre
         //Liste de ce que tu peux faire
@@ -190,12 +195,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             return
         }
 
-        if(command.indexOf("ajoute")!=-1 || command.indexOf("ajout")!=-1 ){
+        if(command.indexOf("ajoute")!=-1 || command.indexOf("ajout")!=-1 ||
+                command.indexOf("ajoutez")!=-1  || command.indexOf("ajouter")!=-1 ){
+
+
+
             if(command.indexOf("titre")==-1){
-                var index = command.indexOf("tache")+1
-                titre  = command.subSequence(index,command.length).toString()
+
+                titre  = command.substringAfter("titre")
                 speak("Le titre de votre tâche est "+titre)
-                var bundle : Bundle = Bundle()
                 var myFrag : Fragment = AddTaskFragment()
                 bundle.putString("Titre", titre)
                 myFrag.setArguments(bundle)
@@ -204,10 +212,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return
             }
             else{
-                var index = command.indexOf("tache")+1
-                titre = command.subSequence(index,command.length).toString()
+                if(command.indexOf("description")!=-1){
+                    var description =  command.substringAfter("description")
+                    var commandArr = stringToWords(command)
+                    command.replaceAfter(commandArr.get(commandArr.indexOf("et")),"")
+                    bundle.putString("Description",description)
+                }
+                titre =command.substringAfter("tâche")
                 speak("Le titre de votre tâche est "+titre)
-                var bundle = Bundle()
                 var myFrag : Fragment = AddTaskFragment()
                 bundle.putString("Titre", titre)
                 myFrag.setArguments(bundle)
@@ -218,7 +230,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
 
         if(command.indexOf("faire")!=-1){
-            speak("Je peux : Supprimer toutes vos tâches , Quitter l'application, Ajouter une tache avec ou sans titre et afficher la liste des tâches")
+            speak("Je peux : Supprimer toutes vos tâches , Quitter l'application, Ajouter une tâche avec ou sans titre et afficher la liste des tâches")
             return
         }
 
@@ -229,8 +241,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             finish()
         }
 
-        speak("Je n'ai pas compris votre instruction")
-        speak("Pour connaitre la liste des instructions possibles dites : Que sais-tu faire ?")
+        speak("Je n'ai pas compris, Pour connaitre la liste des instructions possibles dites : Que sais-tu faire ?")
         return
 
     }
