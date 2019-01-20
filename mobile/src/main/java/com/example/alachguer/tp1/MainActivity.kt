@@ -117,12 +117,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             mySpeechRecognize!!.startListening(intent)
         }
-//        var bundle : Bundle = Bundle()
-//        var myFrag : Fragment = AddTaskFragment()
-//        bundle.putString("Titre", "okokok")
-//        myFrag.arguments = bundle
-//
-//        loadFragment(myFrag)
+
 
     }
 

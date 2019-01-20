@@ -144,7 +144,7 @@ class AddTaskFragment : Fragment()
         }
 
         add_task.setOnClickListener{
-            if (!isEmpty(editText) || month==0 || year==0 || day.toString().equals("0")){
+            if (!isEmpty(editText) || year==0 || day.toString().equals("0")){
                 Toast.makeText(view.context,"Entrez un titre et une description",Toast.LENGTH_SHORT).show()
             }
             else{
@@ -181,7 +181,12 @@ class AddTaskFragment : Fragment()
 
                     var Calendar = Calendar.getInstance()
                     Calendar.set(year,month,day,hour,minute,0)
-                    ((activity as MainActivity)).createNotification(todo.title,todo.type,Calendar.timeInMillis+timeInMillis)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        ((activity as MainActivity)).createNotification(todo.title,todo.type,Calendar.timeInMillis+timeInMillis)
+                    }
+                    else{
+                        Toast.makeText(context, "Le niveau de votre API est trop bas ( min 26)", Toast.LENGTH_SHORT).show()
+                    }
                 }
 
             }
