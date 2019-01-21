@@ -267,19 +267,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return false
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun createNotification(name: String, type: String, delay : Long) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
 
-        val mManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
         val NotifIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 
         val CHANNEL_ID = "my_channel_01"
-        val importance =  NotificationManager.IMPORTANCE_HIGH
-//        val myChannel = NotificationChannel(CHANNEL_ID,CHANNEL_ID,importance)
-//        mManager.createNotificationChannel(myChannel)
 
         var builder : NotificationCompat.Builder
         when(type){
@@ -291,50 +286,48 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setContentIntent(NotifIntent)
                         .setAutoCancel(true)
-                with(NotificationManagerCompat.from(this)) {
-                    // notificationId is a unique int for each notification that you must define
-                }
+                        .setVibrate(longArrayOf(500,500))
+
             }
             "Anniversaire" -> {
-                builder = Notification.Builder(this,CHANNEL_ID)
+                builder = NotificationCompat.Builder(this,CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_cake)
                         .setContentTitle(type)
                         .setContentText(name)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                with(NotificationManagerCompat.from(this)) {
-                    // notificationId is a unique int for each notification that you must define
-                }
+                        .setVibrate(longArrayOf(500,500))
+
             }
             "Travail" -> {
-                builder = Notification.Builder(this,CHANNEL_ID)
+                builder = NotificationCompat.Builder(this,CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_portfolio)
                         .setContentTitle(type)
                         .setContentText(name)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                with(NotificationManagerCompat.from(this)) {
-                    // notificationId is a unique int for each notification that you must define
-                }
+                        .setVibrate(longArrayOf(500,500))
+
+
             }
             "Rendez-vous" -> {
-                builder = Notification.Builder(this,CHANNEL_ID)
+                builder = NotificationCompat.Builder(this,CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_group)
                         .setContentTitle(type)
                         .setContentText(name)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                with(NotificationManagerCompat.from(this)) {
-                    // notificationId is a unique int for each notification that you must define
-                }
+                        .setVibrate(longArrayOf(500,500))
+
+
             }
 
             else -> {
-                builder = Notification.Builder(this,CHANNEL_ID)
+                builder = NotificationCompat.Builder(this,CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_remove_circle_outline_black_24dp)
                         .setContentTitle(type)
                         .setContentText(name)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                with(NotificationManagerCompat.from(this)) {
-                    // notificationId is a unique int for each notification that you must define
-                }
+                        .setVibrate(longArrayOf(500,500))
+
+
             }
         }
 
