@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setContentView(R.layout.activity_main)
 
 
-        lunchSpeechRecognizer = findViewById(R.id.SpeechButton)
+        lunchSpeechRecognizer = this.findViewById(R.id.SpeechButton)
         //loading the default fragment
         loadFragment(CalendarFragment())
 
@@ -111,9 +111,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     Manifest.permission.RECORD_AUDIO)
 
             if (permission != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(
-                    arrayOf(Manifest.permission.RECORD_AUDIO),
-                    101)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(
+                            arrayOf(Manifest.permission.RECORD_AUDIO),
+                            101)
+                }
             }
             mySpeechRecognize!!.startListening(intent)
         }
@@ -276,13 +278,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         val CHANNEL_ID = "my_channel_01"
         val importance =  NotificationManager.IMPORTANCE_HIGH
-        val myChannel = NotificationChannel(CHANNEL_ID,CHANNEL_ID,importance)
-        mManager.createNotificationChannel(myChannel)
+//        val myChannel = NotificationChannel(CHANNEL_ID,CHANNEL_ID,importance)
+//        mManager.createNotificationChannel(myChannel)
 
-        var builder : Notification.Builder
+        var builder : NotificationCompat.Builder
         when(type){
             "Sport" -> {
-                builder = Notification.Builder(this,CHANNEL_ID)
+                builder = NotificationCompat.Builder(this,CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_running)
                         .setContentTitle(type)
                         .setContentText(name)
@@ -340,7 +342,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         val notification =  builder.build()
         val notificationIntent = Intent(this, NotificationPublisher::class.java)
-        this.startForegroundService(notificationIntent)
+        //this.startForegroundService(notificationIntent)
 
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1)
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification)

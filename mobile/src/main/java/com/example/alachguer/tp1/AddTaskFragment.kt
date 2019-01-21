@@ -181,12 +181,7 @@ class AddTaskFragment : Fragment()
 
                     var Calendar = Calendar.getInstance()
                     Calendar.set(year,month,day,hour,minute,0)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         ((activity as MainActivity)).createNotification(todo.title,todo.type,Calendar.timeInMillis+timeInMillis)
-                    }
-                    else{
-                        Toast.makeText(context, "Le niveau de votre API est trop bas ( min 26)", Toast.LENGTH_SHORT).show()
-                    }
                 }
 
             }
