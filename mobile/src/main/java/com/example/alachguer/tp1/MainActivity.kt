@@ -268,14 +268,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     fun createNotification(name: String, type: String, delay : Long) {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
 
 
         val NotifIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+        val notificationIntent = Intent(this, NotificationPublisher::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+                this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val CHANNEL_ID = "my_channel_01"
-
         var builder : NotificationCompat.Builder
         when(type){
             "Sport" -> {
@@ -287,7 +287,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                         .setContentIntent(NotifIntent)
                         .setAutoCancel(true)
                         .setVibrate(longArrayOf(500,500))
-
+                        .addAction(R.drawable.ic_running, "Commencez votre exercice", null)
+                        .addAction(R.drawable.ic_notifications_white_24dp,"Repoussez la notification",null)
             }
             "Anniversaire" -> {
                 builder = NotificationCompat.Builder(this,CHANNEL_ID)
@@ -318,7 +319,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
 
             }
-
             else -> {
                 builder = NotificationCompat.Builder(this,CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_remove_circle_outline_black_24dp)
@@ -334,15 +334,18 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
 
         val notification =  builder.build()
-        val notificationIntent = Intent(this, NotificationPublisher::class.java)
-        //this.startForegroundService(notificationIntent)
-
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1)
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification)
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager?
         alarmManager!!.set(AlarmManager.RTC_WAKEUP, delay, pendingIntent)
+
+
+
+        //Intent to create a new notification in 30min
+
+
     }
 
     override fun onPause(){
