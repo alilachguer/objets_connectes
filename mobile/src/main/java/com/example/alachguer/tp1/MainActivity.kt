@@ -28,6 +28,7 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.support.annotation.RequiresApi
+import android.support.v4.app.RemoteInput
 import android.widget.Toast
 import com.example.alachguer.tp1.NotificationPublisher
 
@@ -270,28 +271,32 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     fun createNotification(name: String, type: String, delay : Long) {
 
 
-        val NotifIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-        val notificationIntent = Intent(this, NotificationPublisher::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-                this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val CHANNEL_ID = "my_channel_01"
         var builder : NotificationCompat.Builder
+        val notificationId = Random().nextInt()
+
+        //Intent for DelayAction
+        val delayIntent = Intent(this,NotificationDelay::class.java)
+
+        //Intent for Notification
+        val NotifIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+
+
+        //Construct notification depending on type
         when(type){
             "Sport" -> {
-                builder = NotificationCompat.Builder(this,CHANNEL_ID)
+                builder = NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_running)
                         .setContentTitle(type)
                         .setContentText(name)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setContentIntent(NotifIntent)
                         .setAutoCancel(true)
-                        .setVibrate(longArrayOf(500,500))
                         .addAction(R.drawable.ic_running, "Commencez votre exercice", null)
-                        .addAction(R.drawable.ic_notifications_white_24dp,"Repoussez la notification",null)
+                        .setVibrate(longArrayOf(500,500))
             }
             "Anniversaire" -> {
-                builder = NotificationCompat.Builder(this,CHANNEL_ID)
+                builder = NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_cake)
                         .setContentTitle(type)
                         .setContentText(name)
@@ -300,52 +305,68 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
             }
             "Travail" -> {
-                builder = NotificationCompat.Builder(this,CHANNEL_ID)
+                builder = NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_portfolio)
                         .setContentTitle(type)
                         .setContentText(name)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setVibrate(longArrayOf(500,500))
-
-
             }
             "Rendez-vous" -> {
-                builder = NotificationCompat.Builder(this,CHANNEL_ID)
+                builder = NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_group)
                         .setContentTitle(type)
                         .setContentText(name)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setVibrate(longArrayOf(500,500))
-
-
             }
             else -> {
-                builder = NotificationCompat.Builder(this,CHANNEL_ID)
+                builder = NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_remove_circle_outline_black_24dp)
                         .setContentTitle(type)
                         .setContentText(name)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setVibrate(longArrayOf(500,500))
-
-
             }
         }
 
+        //Je put l'ID de la notif pour le recup plus tard pour le delais
+        delayIntent.putExtra(NotificationDelay.NOTIFICATION_ID,notificationId)
+        val delayPendingIntent = PendingIntent.getBroadcast(this,0,delayIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+
+        //Second version de la notif
+        val remoteInput = RemoteInput.Builder("DELAY")
+                .setLabel("Repoussez dans ")
+                .setChoices(resources.getStringArray(R.array.delay_choices))
+                .build()
+
+        val replyAction = NotificationCompat.Action.Builder(
+                R.drawable.ic_notifications_white_24dp, "Repoussez la notification", delayPendingIntent)
+                .addRemoteInput(remoteInput)
+                .setAllowGeneratedReplies(true)
+                .build()
 
 
+        //Je créer l'action pour delais la notif
+//        val action = NotificationCompat.Action.Builder(
+//                R.drawable.ic_notifications_white_24dp,"Repoussez la notification",delayPendingIntent
+//        ).build()
+
+
+        builder.addAction(replyAction)
         val notification =  builder.build()
-        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1)
+        notification.flags = Notification.FLAG_AUTO_CANCEL
+
+        val notificationIntent = Intent(this, NotificationPublisher::class.java)
+
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, notificationId)
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification)
 
 
+        //Ici pour schedule ma notif
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager?
         alarmManager!!.set(AlarmManager.RTC_WAKEUP, delay, pendingIntent)
-
-
-
-        //Intent to create a new notification in 30min
-
-
     }
 
     override fun onPause(){
@@ -354,4 +375,3 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
 }
-

@@ -24,6 +24,7 @@
         </activity>
 
         <receiver android:name=".NotificationPublisher" />
+        <receiver android:name=".NotificationDelay"/>
 
     </application>
 </manifest>

@@ -13,4 +13,9 @@
     <string name="select_date">choisir date et heure</string>
     <string name="add_task">ajouter la tâche</string>
     <string name="type_task">De quel type est votre tâche</string>
+    <string-array name="delay_choices">
+        <item>1min</item>
+        <item>5min</item>
+        <item>30min</item>
+    </string-array>
 </resources>

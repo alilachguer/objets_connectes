@@ -15,8 +15,9 @@ public class NotificationPublisher extends BroadcastReceiver {
 
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Notification notification = intent.getParcelableExtra(NOTIFICATION);
         int id = intent.getIntExtra(NOTIFICATION_ID, 1);
+        Notification notification = intent.getParcelableExtra(NOTIFICATION);
+
         notificationManager.notify(id, notification);
     }
 }
