@@ -38,7 +38,6 @@ import com.example.alachguer.tp1.NotificationPublisher
 //implement the interface OnNavigationItemSelectedListener in your activity class
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
-    val btmNavigation: BottomNavigationView? = null
     lateinit var todoDBHelper: TodoDbHelper
     var myTTS : TextToSpeech? = null
     var mySpeechRecognize : SpeechRecognizer ? = null
@@ -198,7 +197,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
 
 
-            if(command.indexOf("titre")==-1){
+            if(command.indexOf("titre")!=-1){
 
                 titre  = command.substringAfter("titre")
                 speak("Le titre de votre tâche est "+titre)
@@ -211,24 +210,21 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             else{
                 if(command.indexOf("description")!=-1){
+                    var myFrag : Fragment = AddTaskFragment()
                     var description =  command.substringAfter("description")
                     var commandArr = stringToWords(command)
                     command.replaceAfter(commandArr.get(commandArr.indexOf("et")),"")
                     bundle.putString("Description",description)
+                    myFrag.setArguments(bundle)
+                    navigation.setSelectedItemId(R.id.navigation_home);
+                    loadFragment(myFrag)
+                    return
                 }
-                titre =command.substringAfter("tâche")
-                speak("Le titre de votre tâche est "+titre)
-                var myFrag : Fragment = AddTaskFragment()
-                bundle.putString("Titre", titre)
-                myFrag.setArguments(bundle)
-                navigation.setSelectedItemId(R.id.navigation_home);
-                loadFragment(myFrag)
-                return
             }
         }
 
         if(command.indexOf("faire")!=-1){
-            speak("Je peux : Supprimer toutes vos tâches , Quitter l'application, Ajouter une tâche avec ou sans titre et afficher la liste des tâches")
+            speak("Je peux : Supprimer toutes vos tâches , Quitter l'application, Ajouter une tâche avec titre ou description et afficher la liste des tâches")
             return
         }
 
@@ -337,6 +333,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         //Second version de la notif
         val remoteInput = RemoteInput.Builder("DELAY")
                 .setLabel("Repoussez dans ")
+                .setAllowFreeFormInput(false)
                 .setChoices(resources.getStringArray(R.array.delay_choices))
                 .build()
 

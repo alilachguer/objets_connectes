@@ -144,8 +144,11 @@ class AddTaskFragment : Fragment()
         }
 
         add_task.setOnClickListener{
-            if (!isEmpty(editText) || year==0 || day.toString().equals("0")){
+            if (!isEmpty(editText)){
                 Toast.makeText(view.context,"Entrez un titre et une description",Toast.LENGTH_SHORT).show()
+            }
+            else if ( year==0 || day.toString().equals("0")){
+                Toast.makeText(view.context,"Entrez une date et une heure", Toast.LENGTH_SHORT).show()
             }
             else{
                 var datee: String = day.toString()+"/"+month+"/"+year
