@@ -268,15 +268,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
 
 
-        var builder : NotificationCompat.Builder
+        val builder : NotificationCompat.Builder
         val notificationId = Random().nextInt()
 
         //Intent for DelayAction
         val delayIntent = Intent(this,NotificationDelay::class.java)
 
+
         //Intent for Notification
         val NotifIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-
 
         //Construct notification depending on type
         when(type){
@@ -327,6 +327,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
 
         //Je put l'ID de la notif pour le recup plus tard pour le delais
+
         delayIntent.putExtra(NotificationDelay.NOTIFICATION_ID,notificationId)
         val delayPendingIntent = PendingIntent.getBroadcast(this,0,delayIntent,PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -343,11 +344,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 .setAllowGeneratedReplies(true)
                 .build()
 
-
-        //Je créer l'action pour delais la notif
-//        val action = NotificationCompat.Action.Builder(
-//                R.drawable.ic_notifications_white_24dp,"Repoussez la notification",delayPendingIntent
-//        ).build()
 
 
         builder.addAction(replyAction)

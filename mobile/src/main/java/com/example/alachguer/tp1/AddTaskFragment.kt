@@ -184,7 +184,7 @@ class AddTaskFragment : Fragment()
 
                     var Calendar = Calendar.getInstance()
                     Calendar.set(year,month,day,hour,minute,0)
-                        ((activity as MainActivity)).createNotification(todo.title,todo.type,Calendar.timeInMillis+timeInMillis)
+                        ((activity as MainActivity)).createNotification(todo.title,todo.type,Calendar.timeInMillis-timeInMillis)
                 }
 
             }
